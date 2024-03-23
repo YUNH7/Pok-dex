@@ -1,6 +1,10 @@
 import ReactDOM from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@emotion/react";
 import { Detail, Main, Root } from "@pages";
@@ -27,7 +31,20 @@ const router = createBrowserRouter([
       },
       {
         path: "detail",
-        element: <Detail />,
+        children: [
+          {
+            path: "",
+            element: <Navigate to="/" />,
+          },
+          {
+            path: ":pokemonId",
+            element: <Detail />,
+          },
+        ],
+      },
+      {
+        path: "*",
+        element: <Navigate to="/" />,
       },
     ],
   },
