@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { evolutionChainIdAtom } from "@state/evolutionChainId";
 import { getEvolution } from "@api";
 import { getIdFromUrl } from "@utils";
+import { Title, Container } from "@styles/detail/PokemonInfo";
+import * as S from "@styles/detail/EvolutionList";
 import { Chain } from "@/types/PokemonEvolutionChain";
 
 interface Evolution {
@@ -30,14 +31,14 @@ const EvolutionList = () => {
 
   return (
     evolutionData && (
-      <div>
-        <h3>진화 단계</h3>
+      <Container>
+        <Title>진화 단계</Title>
         {flatChain(evolutionData.chain).map(({ id, name }) => (
-          <Link key={id} to={`/detail/${id}`}>
-            {name}
-          </Link>
+          <S.Stage key={id} to={`/detail/${id}`}>
+            {name}↗
+          </S.Stage>
         ))}
-      </div>
+      </Container>
     )
   );
 };

@@ -5,6 +5,7 @@ import { useSetAtom } from "jotai";
 import { evolutionChainIdAtom } from "@state/evolutionChainId";
 import { getPokemon, getSpecies } from "@api";
 import { getIdFromUrl } from "@utils";
+import * as S from "@styles/detail/PokemonInfo";
 import { PokemonData } from "@/types/PokemonData";
 import { Language, PokemonSpecies } from "@/types/PokemonSpecies";
 
@@ -46,29 +47,49 @@ const PokemonInfo = () => {
       element.language.name === "ko";
     const koName = names.find(findKo)?.name;
     const koDesc = flavor_text_entries.filter(findKo);
+    const infoData = [
+      { title: "이름", value: `${koName}(${name})` },
+      {
+        title: "버전 - 설명",
+        value: koDesc.map(
+          (desc) => `${desc.version.name} - ${desc.flavor_text}`
+        ),
+      },
+      {
+        title: "키",
+        value: `${height * 10}cm`,
+      },
+      {
+        title: "무게",
+        value: `${weight * 0.1}kg`,
+      },
+      {
+        title: "기술",
+        value: abilities.map((element) => element.ability.name),
+      },
+      {
+        title: "종",
+        value: species.name,
+      },
+      {
+        title: "타입",
+        value: types.map((element) => element.type.name),
+      },
+    ];
 
     return (
       <>
-        <img src={sprites.front_default} alt={`${name} image`} />
-        <div>
-          <h3>정보</h3>
-          <p>
-            이름: {name}({koName})
-          </p>
-          <div>
-            버전 - 설명:{" "}
-            {koDesc.map((desc) => (
-              <p key={desc.version.url}>
-                {desc.version.name} - {desc.flavor_text}
-              </p>
-            ))}
-          </div>
-          <p>키: {height * 10}cm</p>
-          <p>무게: {weight * 0.1}kg</p>
-          <p>기술: {abilities.map((element) => element.ability.name)}</p>
-          <p>종: {species.name}</p>
-          <p>타입: {types.map((element) => element.type.name)}</p>
-        </div>
+        <S.Image src={sprites.front_default} alt={`${name} image`} />
+        {infoData.map(({ title, value }) => (
+          <S.Container key={title}>
+            <S.Title>{title}</S.Title>
+            {Array.isArray(value) ? (
+              value.map((element) => <p key={element}>{element}</p>)
+            ) : (
+              <p>{value}</p>
+            )}
+          </S.Container>
+        ))}
       </>
     );
   }
