@@ -6,7 +6,8 @@ interface PokemonListProps {
 }
 
 const PokemonList = ({ list = [] }: PokemonListProps) => {
-  const findId = (url: string) => parseInt(url.split("ability/")[1]);
+  const findId = (url: string) => parseInt(url.split("/").at(-2) || "");
+
   return (
     <div>
       {list?.map((pokemon) => {

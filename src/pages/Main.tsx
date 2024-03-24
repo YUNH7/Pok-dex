@@ -32,11 +32,7 @@ const Main = () => {
     },
   });
 
-  const data = !search
-    ? pokemonList
-    : pokemonInfo
-    ? [{ name: pokemonInfo.name, url: `ability/${pokemonInfo.id}` }]
-    : null;
+  const data = !search ? pokemonList : pokemonInfo ? pokemonInfo.forms : null;
 
   const targetRef = useIntersectionObserver<HTMLDivElement>({
     onIntersect: () => fetchNextPage(),

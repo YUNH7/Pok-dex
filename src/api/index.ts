@@ -5,6 +5,6 @@ const pokeApi = axios.create({
 });
 
 export const getPokemonList = (page: number) =>
-  pokeApi(`/ability?offset=${(page - 1) * 20}`);
+  pokeApi(`/pokemon?offset=${(page - 1) * 20}`);
 
-export const getPokemon = (id: string) => pokeApi(`/ability/${id}`);
+export const getPokemon = (id: string) => pokeApi(`/pokemon/${id}`);
