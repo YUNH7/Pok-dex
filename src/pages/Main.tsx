@@ -5,13 +5,19 @@ import { useIntersectionObserver, useSetMeta } from "@hooks";
 import { initMeta } from "@state/meta";
 import { PokemonList, Search } from "@components/main";
 import * as S from "@styles/main/Main";
+import { Spinner } from "@styles/detail/PokemonInfo";
 import { PokemonInfo } from "@/types/PokemonList";
 
 const Main = () => {
   useSetMeta(initMeta);
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
-  const { data: pokemonList, fetchNextPage } = useInfiniteQuery({
+  const {
+    data: pokemonList,
+    fetchNextPage,
+    isLoading,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
     queryKey: ["pokemonList", search],
     queryFn: (next) => (!search ? getPokemonList(next.pageParam) : null),
     initialPageParam: 1,
@@ -26,7 +32,7 @@ const Main = () => {
     },
   });
 
-  const { data: pokemonInfo } = useQuery({
+  const { data: pokemonInfo, isLoading: isSearchLoading } = useQuery({
     queryKey: ["searchPokemon", search],
     queryFn: () => (search ? getPokemon(search) : null),
     select(res) {
@@ -40,18 +46,26 @@ const Main = () => {
     onIntersect: () => fetchNextPage(),
   });
 
+  const loading = isLoading || isFetchingNextPage || isSearchLoading;
+
   return (
-    <S.Layout>
-      <div>
+    <div>
+      <S.Layout>
         <Search />
         {data ? (
           <PokemonList list={data} />
         ) : (
-          search && <div>{search}와 일치하는 포켓몬을 찾을 수 없습니다</div>
+          search &&
+          !isSearchLoading && (
+            <S.NoResult>
+              {search}와 일치하는 포켓몬을 찾을 수 없습니다
+            </S.NoResult>
+          )
         )}
-      </div>
+        {loading && <Spinner />}
+      </S.Layout>
       <S.Target ref={targetRef} />
-    </S.Layout>
+    </div>
   );
 };
 
