@@ -47,7 +47,7 @@ const Main = () => {
         {data ? (
           <PokemonList list={data} />
         ) : (
-          <div>{search}와 일치하는 포켓몬을 찾을 수 없습니다</div>
+          search && <div>{search}와 일치하는 포켓몬을 찾을 수 없습니다</div>
         )}
       </div>
       <S.Target ref={targetRef} />
