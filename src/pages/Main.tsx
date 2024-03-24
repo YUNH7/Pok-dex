@@ -1,12 +1,14 @@
 import { useSearchParams } from "react-router-dom";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getPokemon, getPokemonList } from "@api";
-import { useIntersectionObserver } from "@hooks";
+import { useIntersectionObserver, useSetMeta } from "@hooks";
+import { initMeta } from "@state/meta";
 import { PokemonList, Search } from "@components/main";
 import * as S from "@styles/main/Main";
 import { PokemonInfo } from "@/types/PokemonList";
 
 const Main = () => {
+  useSetMeta(initMeta);
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
   const { data: pokemonList, fetchNextPage } = useInfiniteQuery({
