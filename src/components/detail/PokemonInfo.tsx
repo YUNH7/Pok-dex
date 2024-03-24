@@ -137,7 +137,12 @@ const PokemonInfo = () => {
         ))}
       </>
     );
-  }
+  } else
+    return (
+      <S.SpinnerWrapper>
+        <S.Spinner />
+      </S.SpinnerWrapper>
+    );
 };
 
 export default PokemonInfo;
