@@ -6,6 +6,11 @@ import { getEvolution } from "@api";
 import { getIdFromUrl } from "@utils";
 import { Chain } from "@/types/PokemonEvolutionChain";
 
+interface Evolution {
+  name: string;
+  id: string;
+}
+
 const EvolutionList = () => {
   const evolutionChainId = useAtomValue(evolutionChainIdAtom);
   const { data: evolutionData } = useQuery({
@@ -16,10 +21,7 @@ const EvolutionList = () => {
     },
   });
 
-  const flatChain = (
-    data: Chain,
-    bucket: { name: string; id: string }[] = []
-  ): { name: string; id: string }[] => {
+  const flatChain = (data: Chain, bucket: Evolution[] = []): Evolution[] => {
     const { name, url } = data.species;
     bucket.push({ name, id: getIdFromUrl(url) });
     if (data.evolves_to.length === 0) return bucket;
