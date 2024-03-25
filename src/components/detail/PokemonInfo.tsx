@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { useSetAtom } from "jotai";
@@ -11,9 +10,12 @@ import * as S from "@styles/detail/PokemonInfo";
 import { PokemonData } from "@/types/PokemonData";
 import { Language, PokemonSpecies } from "@/types/PokemonSpecies";
 
-const PokemonInfo = () => {
+interface PokemonInfoProps {
+  pokemonId: string;
+}
+
+const PokemonInfo = ({ pokemonId }: PokemonInfoProps) => {
   const setMeta = useSetMeta();
-  const { pokemonId = "" } = useParams();
   const setEvolutionChainId = useSetAtom(evolutionChainIdAtom);
   const queryClient = useQueryClient();
   const cacheData = queryClient.getQueryData<AxiosResponse<PokemonData>>([

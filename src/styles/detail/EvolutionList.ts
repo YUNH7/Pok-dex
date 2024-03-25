@@ -7,8 +7,10 @@ export const Stages = styled.div`
   gap: 0.5rem;
 `;
 
-export const Stage = styled(Link)`
+export const Stage = styled(Link)<{ emphasis?: string }>`
   text-decoration: underline;
+  font-weight: ${(props) => props.emphasis && "bold"};
+  color: ${(props) => props.emphasis && props.theme.colors.primary};
 
   :hover {
     font-weight: bold;

@@ -12,7 +12,11 @@ interface Evolution {
   id: string;
 }
 
-const EvolutionList = () => {
+interface EvolutionListProps {
+  pokemonId: string;
+}
+
+const EvolutionList = ({ pokemonId }: EvolutionListProps) => {
   const evolutionChainId = useAtomValue(evolutionChainIdAtom);
   const { data: evolutionData } = useQuery({
     queryKey: ["evolution", evolutionChainId],
@@ -50,7 +54,11 @@ const EvolutionList = () => {
         {flatChain([evolutionData.chain]).map((stages) => (
           <S.Stages key={stages[0].id}>
             {stages.map(({ id, name }) => (
-              <S.Stage key={id} to={`/detail/${id}`}>
+              <S.Stage
+                key={id}
+                to={pokemonId === id ? "#" : `/detail/${id}`}
+                emphasis={pokemonId === id ? "true" : undefined}
+              >
                 {name}↗
               </S.Stage>
             ))}
