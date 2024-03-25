@@ -29,15 +29,7 @@ const PokemonInfo = () => {
     queries: [
       {
         queryKey: ["pokemon", pokemonId],
-        queryFn: () =>
-          cached
-            ? cacheData
-            : getPokemon(pokemonId).then((res) => {
-                const name = res.data.name;
-                const image = res.data.sprites.front_default;
-                setMeta({ title: name, image });
-                return res;
-              }),
+        queryFn: () => (cached ? cacheData : getPokemon(pokemonId)),
       },
       {
         queryKey: ["species", pokemonId],
