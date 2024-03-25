@@ -5,11 +5,10 @@ interface Props {
   onIntersect: IntersectionObserverCallback;
 }
 
-const DEFAULT_THRESHOLD = 1.0;
 const defaultOption = {
   root: undefined,
   rootMargin: "0px",
-  threshold: DEFAULT_THRESHOLD,
+  threshold: 1.0,
 };
 
 const useIntersectionObserver = <T extends HTMLElement>({
@@ -30,12 +29,10 @@ const useIntersectionObserver = <T extends HTMLElement>({
     const currentRef = ref.current;
     if (currentRef === null) return;
 
-    const { root, rootMargin, threshold } = option || defaultOption;
-    const observer = new IntersectionObserver(callback, {
-      root,
-      rootMargin,
-      threshold,
-    });
+    const observerOption = option
+      ? { ...defaultOption, ...option }
+      : defaultOption;
+    const observer = new IntersectionObserver(callback, observerOption);
 
     observer.observe(currentRef);
     return () => currentRef && observer.unobserve(currentRef);
