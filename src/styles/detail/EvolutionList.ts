@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 
+export const Stages = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
 export const Stage = styled(Link)`
   text-decoration: underline;
 
